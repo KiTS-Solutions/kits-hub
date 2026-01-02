@@ -210,7 +210,7 @@ export default function PrivacyPage() {
               </p>
               <div className="bg-gray-50 p-4 rounded-lg">
                 <p className="text-gray-600">
-                  Email: privacy@kits-hub.com<br />
+                  Email: kits.tech.co@gmail.com<br />
                   Address: 123 Business Ave, New York, NY 10001
                 </p>
               </div>

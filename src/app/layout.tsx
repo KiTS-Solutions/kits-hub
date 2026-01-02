@@ -3,19 +3,19 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import { AuthProvider } from "@/components/auth/auth-provider";
-import { AnalyticsProvider } from "@/components/analytics/analytics-provider";
-import { AnalyticsScript } from "@/components/analytics/analytics-script";
-import { Navbar } from "@/components/layout/navbar";
-import { Footer } from "@/components/layout/footer";
+import { NavbarNew as Navbar } from "@/components/layout/navbar-new";
+import { FooterFixed as Footer } from "@/components/layout/footer-fixed";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  preload: false, // Disable preloading
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  preload: false, // Disable preloading
 });
 
 export const metadata: Metadata = {
@@ -31,23 +31,20 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <AnalyticsScript />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Suspense>
-          <AnalyticsProvider>
-            <AuthProvider>
-              <div className="min-h-screen flex flex-col">
-                <Navbar />
-                <main className="flex-1">
-                  {children}
-                </main>
-                <Footer />
-              </div>
-            </AuthProvider>
-          </AnalyticsProvider>
+          <AuthProvider>
+            <div className="min-h-screen flex flex-col">
+              <Navbar />
+              <main className="flex-1">
+                {children}
+              </main>
+              <Footer />
+            </div>
+          </AuthProvider>
         </Suspense>
       </body>
     </html>

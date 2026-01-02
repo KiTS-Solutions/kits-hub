@@ -8,7 +8,7 @@ import { useAuth } from '@/components/auth/auth-provider'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { Menu, X, User, LogOut, Settings, CreditCard } from 'lucide-react'
 
-export function Navbar() {
+export function NavbarNew() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { user, signOut } = useAuth()
 

@@ -26,7 +26,7 @@ export function SEOHead({
   const finalTitle = title ? `${title} | KiTS Hub` : siteTitle
   const finalDescription = description || siteDescription
   const finalCanonical = canonical ? `${baseUrl}${canonical}` : baseUrl
-  const finalOgImage = ogImage || `${baseUrl}/og-image.png`
+  const finalOgImage = ogImage || `${baseUrl}/kits-logo.png`
 
   return (
     <Head>
