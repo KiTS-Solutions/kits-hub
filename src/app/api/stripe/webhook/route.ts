@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 const relevantEvents = new Set([
   'checkout.session.completed',
   'customer.subscription.created',
@@ -20,6 +20,7 @@ export async function POST(request: Request) {
   let event: any
 
   try {
+    const stripe = getStripe()
     event = stripe.webhooks.constructEvent(
       body,
       signature,
@@ -38,6 +39,7 @@ export async function POST(request: Request) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object
+        const stripe = getStripe()
         const subscription = await stripe.subscriptions.retrieve(session.subscription as string)
         
         // Create or update subscription record

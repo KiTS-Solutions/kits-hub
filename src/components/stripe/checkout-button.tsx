@@ -4,29 +4,36 @@ import { useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import type { Stripe } from '@stripe/stripe-js'
 import { Button } from '@/components/ui/button'
-import { getStripePlans } from '@/lib/stripe'
+import { getStripePlans } from '@/lib/stripe-plans'
 
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
 interface CheckoutButtonProps {
   priceId: string
+  plan: string
   children?: React.ReactNode
   className?: string
 }
 
-export function CheckoutButton({ priceId, children, className }: CheckoutButtonProps) {
+export function CheckoutButton({ priceId, plan, children, className }: CheckoutButtonProps) {
   const [loading, setLoading] = useState(false)
 
   const handleCheckout = async () => {
     setLoading(true)
 
     try {
-      const response = await fetch('/api/stripe/checkout', {
+      // Check if Stripe publishable key is available
+      if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+        console.error('NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not set')
+        return
+      }
+
+      const response = await fetch('/api/stripe/checkout-test', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ priceId }),
+        body: JSON.stringify({ priceId, plan }),
       })
 
       const { sessionId, error } = await response.json()
@@ -98,6 +105,7 @@ export function PricingCards() {
           </ul>
           <CheckoutButton
             priceId={plan.price}
+            plan={key}
             className={`w-full ${
               key === 'pro'
                 ? 'bg-blue-600 hover:bg-blue-700'

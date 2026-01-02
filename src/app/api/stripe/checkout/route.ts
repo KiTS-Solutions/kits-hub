@@ -1,8 +1,8 @@
 import { createClient } from '@supabase/supabase-js'
 import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
-import { getStripePlans } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
+import { getStripePlans } from '@/lib/stripe-plans'
 import { Database } from '@/types/database'
 
 export async function POST(request: Request) {
@@ -45,6 +45,7 @@ export async function POST(request: Request) {
 
     if (!customerId) {
       // Create new Stripe customer
+      const stripe = getStripe()
       const customer = await stripe.customers.create({
         email: profile.email,
         name: profile.full_name || undefined,
@@ -56,6 +57,7 @@ export async function POST(request: Request) {
     }
 
     // Create checkout session
+    const stripe = getStripe()
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       payment_method_types: ['card'],

@@ -21,6 +21,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "KiTS Hub - CRM Solutions & Business Software",
   description: "Empowering businesses with cutting-edge CRM solutions and custom software development. Transform your operations with our comprehensive suite of tools and services.",
+  icons: {
+    icon: "/kits-logo.png",
+  },
 };
 
 export default function RootLayout({
